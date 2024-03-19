@@ -1,10 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../Components/Navbar";
 import background from "../Images/backgroundImage.jpg";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 
+  import { useNavigate } from "react-router-dom";
+
 const Signin = () => {
+
+const [email,setEmail]= useState('')
+const [password,setPassword] = useState('')
+const navigate = useNavigate();
+
+const handleSignin = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch('http://localhost:8080/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        email, 
+        password
+      }),
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const responseData = await response.json();
+    console.log(responseData);
+    if (responseData.status) {
+       if(responseData.user.role==="admin") {
+        navigate('/admindashboard')
+
+       }
+       else{
+        navigate('/home')
+       }
+    }
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+  }
+};
+
   return (
     <>
       <Header/>
@@ -19,7 +59,7 @@ const Signin = () => {
         }}
       >
         <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-          <form className="space-y-6" action="#">
+          <form className="space-y-6" onSubmit={handleSignin}>
             <h5 className="text-xl font-medium text-gray-900 dark:text-white">
               Sign in to our platform
             </h5>
@@ -37,6 +77,7 @@ const Signin = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="name@company.com"
                 required
+                onChange={(e)=>setEmail(e.target.value)}
               />
             </div>
             <div>
@@ -53,6 +94,7 @@ const Signin = () => {
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
+                onChange={(e)=>setPassword(e.target.value)}
               />
             </div>
             <div className="flex items-start">
@@ -74,7 +116,7 @@ const Signin = () => {
                 </label>
               </div>
               <a
-                href="#"
+                href="/forgotpassword"
                 className="ms-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
               >
                 Forgot Password?
@@ -89,7 +131,7 @@ const Signin = () => {
             <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
               Not registered?{" "}
               <a
-                href="#"
+                href="/Signup"
                 className="text-blue-700 hover:underline dark:text-blue-500"
               >
                 Create account
