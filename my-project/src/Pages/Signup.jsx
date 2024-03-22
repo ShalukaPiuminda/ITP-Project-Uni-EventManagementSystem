@@ -143,10 +143,10 @@ const handleSignup = async (e) => {
             <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
               Already have an account ?{" "}
               <a
-                href="#"
+                href="/login"
                 className="text-blue-700 hover:underline dark:text-blue-500"
               >
-                Create account
+                sign in 
               </a>
             </div>
           </form>

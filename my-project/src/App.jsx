@@ -9,6 +9,11 @@ import Signup from './Pages/Signup'
 import ForgotPassword from './Pages/ForgotPassword'
 import Resetpassword from './Pages/Resetpassword'
 import AdminDashboard from './Pages/AdminDashboard'
+import Reservation from './Pages/Reservation'
+import Addevent from './Pages/Addevent'
+import AdminEvents from './Pages/AdminEvents'
+
+import ReservationDetails from './Pages/ReservationDetails'
 
 function App() {
  
@@ -22,6 +27,10 @@ function App() {
       <Route path='/forgotpassword' element={<ForgotPassword/>}></Route>
       <Route path='/resetpassword/:token' element={<Resetpassword/>}></Route>
       <Route path='/admindashboard' element={<AdminDashboard/>}></Route>
+      <Route path='/reservation/:id' element={<Reservation/>}></Route>
+      <Route path='/addevent' element={<Addevent/>}></Route>
+      <Route path='/evnt-admin' element={<AdminEvents/>}></Route>
+      <Route path='/reservationdetails' element={<ReservationDetails/>}></Route>
 
     </Routes>
     
