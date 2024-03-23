@@ -14,6 +14,9 @@ import Addevent from './Pages/Addevent'
 import AdminEvents from './Pages/AdminEvents'
 
 import ReservationDetails from './Pages/ReservationDetails'
+import Addnotification from './Pages/Addnotification'
+import NotigicationAdmin from './Pages/NotigicationAdmin'
+import UpdateNotification from './Pages/UpdateNotification'
 
 function App() {
  
@@ -31,7 +34,9 @@ function App() {
       <Route path='/addevent' element={<Addevent/>}></Route>
       <Route path='/evnt-admin' element={<AdminEvents/>}></Route>
       <Route path='/reservationdetails' element={<ReservationDetails/>}></Route>
-
+      <Route path='/addnotification' element={<Addnotification/>}></Route>
+      <Route path='/notification' element={<NotigicationAdmin/>}></Route>
+      <Route path='/updatenotification/:id' element={<UpdateNotification/>}></Route>
     </Routes>
     
     </BrowserRouter>
