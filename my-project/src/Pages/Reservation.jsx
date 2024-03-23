@@ -135,7 +135,7 @@ const  handelReservation = async(e)=>{
             </div>
             <div>
               <label
-                htmlFor="password"
+                htmlFor="reservationFee"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
             Reservation Fee
