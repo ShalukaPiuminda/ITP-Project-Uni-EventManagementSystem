@@ -15,7 +15,7 @@ const Addnotification = () => {
   const [publishername, setPublishername] = useState('') 
   const navigate = useNavigate()
 
-const hadlenotification =async () => {
+const hadlenotification =async (e) => {
 
     e.preventDefault();
     try {

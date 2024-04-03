@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import Header from "../Components/Header";
+import Footer from "../Components/Footer";
+import NavbarAdmin from "../Components/NavbarAdmin";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
+
+
+  
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -22,6 +28,9 @@ const AdminDashboard = () => {
     fetchUsers();
   }, []);
 
+  
+
+
   const generatePDF = () => {
     const doc = new jsPDF();
 
@@ -38,11 +47,33 @@ const AdminDashboard = () => {
       body: tableData,
     });
 
+    // Calculate total number of admins and users
+    let adminCount = 0;
+    let userCount = 0;
+
+    users.forEach((user) => {
+      if (user.role === 'admin') {
+        adminCount++;
+      } else {
+        userCount++;
+      }
+    });
+
+    // Get height of the table
+    const tableHeight = doc.previousAutoTable.finalY;
+    doc.setFontSize(8); 
+    // Add total admins and users after the table
+    doc.text(`Total Admins: ${adminCount}`, 10, tableHeight + 20);
+    doc.text(`Total Users: ${userCount}`, 10, tableHeight + 30);
+
     doc.save("user_report.pdf");
   };
 
+
   return (
     <>
+    <Header/>
+    <NavbarAdmin/>`
       <div className=" flex flex-col relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <caption className="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
@@ -80,7 +111,7 @@ const AdminDashboard = () => {
                 <td className="px-6 py-4">{user.role}</td>
                 <td className="px-6 py-4 text-right">
                   <a
-                    href="#"
+                    href={`/deleteuser/${user._id}`}
                     className="font-medium text-red-700 dark:text-red-700 hover:underline"
                   >
                     Remove
@@ -90,6 +121,13 @@ const AdminDashboard = () => {
             ))}
           </tbody>
         </table>
+      
+        <div className="mt-10 mx-5">
+           <p>Total Users  : {users.length}</p>
+        
+
+        </div>
+
         <div className="flex items-center justify-center">
           <p className="mx-7">  Download the users report </p>
           <button onClick={generatePDF} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
@@ -99,6 +137,7 @@ const AdminDashboard = () => {
           </button>{" "}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

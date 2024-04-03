@@ -75,5 +75,20 @@ router.post('/updatenotification/:id', async (req, res) => {
 
 })
 
+router.delete('/deletenotifications/:id', async (req, res) => {
+
+   const {id} = req.params
+
+   try {
+    await Notification.findByIdAndDelete({_id:id})
+    return res.json({status:true,message:'notification  deleted successfully'});
+
+   }
+   catch(error){
+    console.log(error);
+   }
+
+
+})
 
 export default router;

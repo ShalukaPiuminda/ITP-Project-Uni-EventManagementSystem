@@ -55,6 +55,28 @@ router.get('/getevent/:id', async (req, res) => {
   }
 });
 
+router.get('/geteventbyname/:eventname', async (req, res) => {
+    const eventname = req.params.eventname; // Access event name correctly
+    console.log(eventname);
+  
+    try {
+        // Query the Event model by event name
+        const event = await Event.findOne( eventname );
+        console.log(event);
+       
+        // Check if event exists
+        if (!event) {
+            return res.status(404).json({ error: 'Event not found' });
+        }
+  
+        // If event is found, return it in the response
+        res.json(event);
+    } catch (error) {
+        // Handle any errors that occur during the query
+        console.error('Error fetching event:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
  
 export default router;

@@ -41,6 +41,8 @@ const handleUpload = (e) => {
         console.log('no file selected')
     }
 }
+
+
 const handleEvent = async (e) => {
     e.preventDefault();
    /* try {
@@ -70,6 +72,8 @@ const handleEvent = async (e) => {
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
     }*/
+
+    console.log(eventname, description, date, time, venue, ticketprice, imageUrl);
 
     axios.post('http://localhost:8080/api/addevent',{
         eventname: eventname,
@@ -110,7 +114,7 @@ const handleEvent = async (e) => {
                 id="eventname"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
-                onchange={(e)=>setEventName(e.target.value)}
+                onChange={(e)=>setEventName(e.target.value)}
               />
             </div>
      
@@ -128,7 +132,7 @@ const handleEvent = async (e) => {
                 id="description"
                 
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                onchange={(e)=>setDescription(e.target.value)}
+                onChange={(e)=>setDescription(e.target.value)}
               />
             </div>
             <div>
@@ -144,7 +148,7 @@ const handleEvent = async (e) => {
                 id="date"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
-                onchange={(e)=>setDate(e.target.value)}
+                onChange={(e)=>setDate(e.target.value)}
               />
             </div>
             <div>
@@ -160,7 +164,7 @@ const handleEvent = async (e) => {
                 id="time"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
-                onchange={(e)=>setTime(e.target.value)}
+                onChange={(e)=>setTime(e.target.value)}
               />
             </div>
             <div>
@@ -176,7 +180,7 @@ const handleEvent = async (e) => {
                 id="venue"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
-                onchange={(e)=>setVenue(e.target.value)}
+                onChange={(e)=>setVenue(e.target.value)}
               />
             </div>
             <div>
@@ -192,7 +196,7 @@ const handleEvent = async (e) => {
                 id="ticketprice"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
-                onchange={(e)=>setTicketPrice(e.target.value)}
+                onChange={(e)=>setTicketPrice(e.target.value)}
               />
             </div>
 

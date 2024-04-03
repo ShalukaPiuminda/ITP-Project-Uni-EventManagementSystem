@@ -14,7 +14,7 @@ const Navbar = () => {
               <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-blue-900 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-blue  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
                   <a
-                    href="#"
+                    href="/home"
                     className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
                     aria-current="page"
                   >
@@ -52,7 +52,7 @@ const Navbar = () => {
                
                 <li>
                   <a
-                    href="#"
+                    href="/profile"
                     className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
                     aria-current="page"
                   >
@@ -72,11 +72,20 @@ const Navbar = () => {
                
                 <li>
                   <a
-                    href="#"
+                    href="/pastevents"
                     className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
                     aria-current="page"
                   >
                     Past Events
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/usernotification"
+                    className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
+                    aria-current="page"
+                  >
+                 Notification
                   </a>
                 </li>
                
