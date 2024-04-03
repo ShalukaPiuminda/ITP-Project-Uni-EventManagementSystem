@@ -55,7 +55,7 @@ const handleSignup = async (e) => {
           backgroundImage: `url(${background})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
-          opacity:0.75
+        
          
         }}
       >

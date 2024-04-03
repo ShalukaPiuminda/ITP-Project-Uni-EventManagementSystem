@@ -1,20 +1,26 @@
 import React,{ useEffect, useState } from 'react'
-import event1 from '../Images/event1.jpg'
 import Footer from "../Components/Footer"
 import Header from "../Components/Header"
 import Navbar from "../Components/Navbar"
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+
+
+
+
 
 const Reservation = () => {
 
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
-  const [event,setEvent] = useState('');
+  // const [event,setEvent] = useState('');
   const {id} = useParams()
-
+  const [userId,setUserId] = useState('');
   const [eventname, setEventname] = useState('')
   const [customername, setCustomername] = useState('')
   const [reservationFee, setReservationFee] = useState('')
+  const[useremail, setUseremail] = useState('')
+  const [imageUrl, setImageUrl] = useState('' )
+
 
   const navigate = useNavigate()
 
@@ -31,7 +37,10 @@ const Reservation = () => {
           throw new Error("Network response was not ok");
         }
         const jsonData = await response.json();
-        setEvent(jsonData);
+        // setEvent(jsonData);
+        setEventname(jsonData.eventname);
+        setReservationFee(jsonData.ticketprice);
+        setImageUrl(jsonData.imageUrl);
       } catch (error) {
         console.log(error);
       }
@@ -52,7 +61,36 @@ const Reservation = () => {
   }, []);
 
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/auth/userdata', {
+          credentials: 'include'
+        });
+        if (response.ok) {
+          const userData = await response.json();
+          console.log(userData)
+          setUserId(userData.userId);
+          setCustomername(userData.username);
+          setUseremail(userData.email);
+        } else {
+          // Handle error
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+  
+    fetchUserData();
+  }, []);
+  
+
+  
+
+
 const  handelReservation = async(e)=>{
+  e.preventDefault();
+
   try {
     const response = await fetch('http://localhost:8080/Api/addreservation', {
       method: 'POST',
@@ -63,9 +101,12 @@ const  handelReservation = async(e)=>{
         
         eventname : eventname, 
         customername,
+        userId :userId,
+        useremail,
         reservationFee : reservationFee,
         currentDate,
-        currentTime
+        currentTime,
+        imageUrl:imageUrl
 
       }),
       credentials: 'include'
@@ -76,7 +117,8 @@ const  handelReservation = async(e)=>{
     const responseData = await response.json();
     console.log(responseData);
     if (responseData.status) {
-      navigate("/reservationdetails")
+
+      navigate(`/reservationdetails/${customername}/${eventname}`);
     }
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
@@ -107,9 +149,10 @@ const  handelReservation = async(e)=>{
                 type="text"
                 name="eventname"
                 id="eventname"
-                defaultValue={event ? event.eventname : ''}
+                // defaultValue={event ? event.eventname : ''}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 onChange={(e)=>setEventname(e.target.value)}
+                value={eventname}
                 required
                
               />
@@ -127,10 +170,27 @@ const  handelReservation = async(e)=>{
                 type="text"
                 name="customername"
                 id="customername"
-            
+                value = {customername}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
                 onChange={(e)=>setCustomername(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="customeremail"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+              Customer Email
+              </label>
+              <input
+                type="email"
+                name="useremail"
+                id="useremail"
+                value = {useremail}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                required
+                onChange={(e)=>setUseremail(e.target.value)}
               />
             </div>
             <div>
@@ -147,13 +207,16 @@ const  handelReservation = async(e)=>{
                
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
-               defaultValue={ event.ticketprice  }
+              //  defaultValue={ event.ticketprice  }
                onChange={(e)=>setReservationFee(e.target.value)}
+               value={reservationFee}
               />
             </div>
             <div>
               <p>Reserve Date : {currentDate}</p><br/>
               <p>Reserve Time :{currentTime} </p>
+        
+
             </div>
             
             <div className='flex'>
@@ -162,19 +225,14 @@ const  handelReservation = async(e)=>{
               className="w-1/2 text-white bg-green-700 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Book Now
-            </button>
-            <button
-                type="button"
-                className="w-1/2 mx-3  text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-              >
               
-               Add To Wish-List
-              </button>
+            </button>
+            
               </div>
           </form>
           </div>
     <div className='w-1/2 p-5 mt-7 h-full' > 
-      <img src={event1} className='rounded'></img>
+      <img src={imageUrl} className='rounded'></img>
 
     </div>
     </div>

@@ -49,12 +49,14 @@ router.post('/signin',async(req, res) => {
         return res.json({status: false, message:"Invalid password"});
     }
 
-    const token = jwt.sign({email:user.email},"Secret-key",{expiresIn:'1h'})
-    res.cookie('token',token,{httpOnly:true,maxAge:360000})
+    const token = jwt.sign({username: user.username, email:user.email},"Secret-key",{expiresIn:'1h'})
+    res.cookie('token',token,{httpOnly:true,maxAge:3600000})
     return res.json({status: true, message:"User logged in successfully",user});
 
 
 })
+
+
 
 router.post('/forgotpassword',async(req, res) => {
 
@@ -129,5 +131,97 @@ router.get('/users', (req, res)=>{
     })
 
 })
+
+
+
+router.get('/userdata', async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const decoded = jwt.verify(token, 'Secret-key');
+    const user = await User.findOne({ email: decoded.email });
+    console.log(user);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Send user information to the frontend
+    return res.status(200).json({userId:user._id, username: user.username ,email: user.email,
+      mobilenumber: user.mobilenumber,profileimg: user.profileimg});
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/getuserbyid/:userid', async (req, res) => {
+  const  id  = req.params;
+  console.log(req.params);
+
+  try {
+    const user = await User.findById({_id:id});
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ username: user.username, email: user.email, mobilenumber: user.mobilenumber });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.post('/updateprofile/:id', async(req, res)=>{
+
+  const {id} = req.params
+  const { username,
+    email,
+    mobilenumber,
+    profileimg}=req.body;
+  try{
+    await User.findByIdAndUpdate({_id:id},{
+      username:username,
+      email:email,
+      mobilenumber:mobilenumber,
+      profileimg:profileimg
+
+      })
+    return res.json({status:true,message:'video updated successfully'});
+
+  }
+  catch(error){
+    console.log(error);
+  }
+
+})
+
+
+
+router.delete('/deleteuser/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Check if the user exists
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ status: false, message: 'User not found' });
+    }
+
+    // Delete the user
+    await User.findByIdAndDelete(id);
+    return res.json({ status: true, message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+});
+
+
+
+
 
 export default router;

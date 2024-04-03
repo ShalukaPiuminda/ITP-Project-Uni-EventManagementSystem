@@ -55,6 +55,7 @@ useEffect(() => {
       const responseData = await response.json();
    
       if (responseData.status) {
+        
         navigate('/notification')// Use the navigate function to redirect
       }
     } catch (error) {

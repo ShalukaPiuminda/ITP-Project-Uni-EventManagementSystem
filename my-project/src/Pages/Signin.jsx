@@ -1,10 +1,11 @@
+import Cookies from 'js-cookie';
 import React, { useState } from "react";
 import Navbar from "../Components/Navbar";
 import background from "../Images/backgroundImage.jpg";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
-
-  import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const Signin = () => {
 
@@ -30,14 +31,32 @@ const handleSignin = async (e) => {
       throw new Error('Network response was not ok');
     }
     const responseData = await response.json();
+    // console.log(responseData.headers);
+    console.log([...response.headers.entries()]);
     console.log(responseData);
     if (responseData.status) {
        if(responseData.user.role==="admin") {
         navigate('/admindashboard')
+                  
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "You have successfully login to the system.",
+            showConfirmButton: false,
+            timer: 1500
+          });
 
        }
        else{
         navigate('/home')
+                  
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "You have successfully login to the system.",
+            showConfirmButton: false,
+            timer: 1500
+});
        }
     }
   } catch (error) {

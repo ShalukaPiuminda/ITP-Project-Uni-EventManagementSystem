@@ -5,6 +5,7 @@ import Header from "../Components/Header";
 import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import axios from "axios";
 
 const NotigicationAdmin = () => {
   const [notifications, setNotifications] = useState([]);
@@ -28,7 +29,7 @@ const NotigicationAdmin = () => {
     fetchNotifications();
   }, []);
 
-  const genaratePdf=()=>{
+  const genaratePdf = () => {
     const doc = new jsPDF();
 
     doc.text("Notification Report", 10, 10);
@@ -37,22 +38,25 @@ const NotigicationAdmin = () => {
       notification.Title,
       notification.description,
       notification.publishername,
+      notification.createdAt,
     ]);
     doc.autoTable({
       startY: 20,
-      head: [["Title", "Description", "Publisher Name"]],
+      head: [["Title", "Description", "Publisher Name", "Date / Time"]],
       body: tableData,
     });
 
     doc.save("user_report.pdf");
-
-  }
+  };
 
   return (
     <>
       <Header />
       <NavbarAdmin />
       <div className="flex flex-col bg-gray-200">
+        <div className="mt-10 flex item-center justify-center ">
+        <h2 className="font-bold text-3xl"> All Notifications </h2>
+        </div>
         {notifications.map((notification) => (
           <div className=" mx-5 my-10 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
@@ -75,23 +79,35 @@ const NotigicationAdmin = () => {
                 Update
               </button>
             </Link>
-            <button
-              type="submit"
-              onClick={handleDelete(notification._id)}
-              className=" mx-6 text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Delete
-            </button>
+
+            <Link to={`/deletenotification/${notification._id}`}>
+              <button
+                type="submit"
+                className=" mx-6 text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Delete
+              </button>
+            </Link>
           </div>
         ))}
 
         <button
-          type="submit" 
+          type="submit"
           onClick={genaratePdf}
           className=" mx-6 my-10 text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Download As PDF
         </button>
+
+      
+        <button
+          type="submit"
+          className=" mx-6 my-10 text-white bg-green-700 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >  <Link to="/addnotification">
+          Add New Notification
+          </Link>
+        </button>
+        
       </div>
       <Footer />
     </>
