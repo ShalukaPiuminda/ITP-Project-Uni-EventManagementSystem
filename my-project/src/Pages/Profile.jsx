@@ -109,7 +109,7 @@ const Profile = () => {
                 Edit Profile
               </Link>
               <a
-                href="#"
+                href={`/deleteprofile/${userId}`}
                 class="py-2 px-4 ms-2 text-sm font-medium text-white focus:outline-none bg-red-700 rounded-lg border border-gray-200 hover:bg-red-900 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-red-700 dark:hover:bg-gray-700"
               >
                 Delete Profile

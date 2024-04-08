@@ -169,4 +169,66 @@ router.get("/getreservationbyid/:id", (req, res) => {
       res.json(err);
     });
 });
+
+router.get("/getreservation/:id", (req, res) => {
+  const { id } = req.params;
+
+  Reservation.findById({ _id :id })
+    .then((reservations) => {
+      console.log(reservations);
+      res.json(reservations);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+
+router.post('/updatereservation/:id', async(req, res)=>{
+
+  const {id} = req.params
+  const { customername,
+    useremail,
+   currentDate,
+   currentTime}=req.body;
+  try{
+    await Reservation.findByIdAndUpdate({_id:id},{
+      customername:customername,
+      useremail:useremail,
+      currentDate:currentDate,
+       currentTime:currentTime
+    })
+    return res.json({status:true,message:'Reservation updated successfully'});
+
+  }
+  catch(error){
+    console.log(error);
+  }
+
+
+
+
+})
+
+
+router.delete('/deletereservation/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Check if the user exists
+    const reservation = await Reservation.findById(id);
+    if (!reservation) {
+      return res.status(404).json({ status: false, message: 'User not found' });
+    }
+
+    // Delete the user
+    await Reservation.findByIdAndDelete(id);
+    return res.json({ status: true, message: 'video deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+});
+
+
 export default router;

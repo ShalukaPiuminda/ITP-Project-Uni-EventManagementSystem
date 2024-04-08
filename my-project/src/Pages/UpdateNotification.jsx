@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 const UpdateNotification = () => {
 
@@ -55,7 +56,11 @@ useEffect(() => {
       const responseData = await response.json();
    
       if (responseData.status) {
-        
+        Swal.fire({
+          title: "Updated successfully !",
+          text: "You clicked the button!",
+          icon: "success"
+        });
         navigate('/notification')// Use the navigate function to redirect
       }
     } catch (error) {

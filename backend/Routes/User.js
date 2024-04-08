@@ -222,6 +222,66 @@ router.delete('/deleteuser/:id', async (req, res) => {
 
 
 
+router.delete('/deleteprofile/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Check if the user exists
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ status: false, message: 'User not found' });
+    }
+
+    // Delete the user
+    await User.findByIdAndDelete(id);
+
+    res.clearCookie('token');
+
+    return res.json({ status: true, message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+});
+
+router.get('/logout', async (req, res) => {
+
+try {
+  
+  res.clearCookie('token');
+  return res.json({ status: true, message: 'User logged out successfully' });
+
+
+
+} catch (error) {
+    console.log(error)
+}
+
+
+})
+
+const verifyToken = (req, res, next) => {
+  const token = req.body.token;
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+
+  jwt.verify(token, 'Secret-key', (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ error: 'Failed to authenticate token' });
+    }
+    req.userId = decoded.id;
+    req.userRole = decoded.role;
+    next();
+  });
+};
+
+// Endpoint to validate token
+router.post('/validate-token', verifyToken, (req, res) => {
+  console.log(req.userId, req.userRole)
+  res.json({ valid: true, role: req.userRole });
+});
+
 
 
 export default router;

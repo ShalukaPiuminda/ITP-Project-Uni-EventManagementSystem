@@ -1,7 +1,22 @@
 // Navbar.js
-import React from "react";
+import React, { useState } from "react";
 
 const Navbar = () => {
+
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleMouseEnter = () => {
+    setShowDropdown(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowDropdown(false);
+  };
+
   return (
     <>
       <div>
@@ -30,14 +45,33 @@ const Navbar = () => {
                     Events
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="reservation"
-                    className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
-                    aria-current="page"
-                  >
-                    Reservations
-                  </a>
+
+            
+                <li
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className="relative">
+                    <a
+                      href="/userreservation"
+                      className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
+                      aria-current="page"
+                    >
+                      Reservations
+                    </a>
+                    {showDropdown && (
+                      <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+                        {/* Dropdown items */}
+                        <a
+                          href="/mywishlist"
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                        >
+                         My Wish-list
+                        </a>
+                      
+                      </div>
+                    )}
+                  </div>
                 </li>
                
                 <li>
