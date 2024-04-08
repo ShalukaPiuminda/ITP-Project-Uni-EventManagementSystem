@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Header from '../Components/Header';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
+import Swal from 'sweetalert2';
 
 
 const ReservationDetails = () => {
@@ -67,6 +68,11 @@ try {
   console.log(response);
   if(response.data.status){
     navigate('/mywishlist');
+    Swal.fire({
+      title: "successfully added to the wish-list!",
+      text: "You clicked the button!",
+      icon: "success"
+    });
   }
   
 } catch (error) {
