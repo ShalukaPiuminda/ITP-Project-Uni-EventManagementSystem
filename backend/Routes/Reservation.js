@@ -1,6 +1,7 @@
 import express from "express";
 import Reservation from "../Models/Reservation.js";
 import Wishlist from "../Models/Wishlist.js";
+import nodemailer from "nodemailer"
 
 const router = express.Router();
 
@@ -53,9 +54,42 @@ router.post("/approve-reservation/:id", async (req, res) => {
   const { id } = req.params;
   try {
     await Reservation.findByIdAndUpdate({ _id: id }, { status: "approved" });
-    res.json({ status: true, message: "Reservation updated successfully" });
+    res.json({ status: true, message: "Reservation Approved successfully" });
 
+    const reservation = await Reservation.findById({ _id: id })
+    
+    const htmlBody = `
+      <h1>Your Reservation Details</h1>
+      <p><strong>Event Name:</strong> ${reservation.eventname}</p>
+      <p><strong>Reserved For:</strong> ${reservation.customername}</p>
+      <p><strong>Reservation Fee:</strong> ${reservation.reservationFee}</p>
+      <p><strong>Status:</strong> ${reservation.status}</p>
+      <p>Thank you for your reservation!</p>
+    `;
+    
   
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'priyamanthabandara.en01@gmail.com',
+    pass: 'apxs kcvx dvvz rnyg'
+  }
+});
+
+var mailOptions = {
+  from: 'priyamanthabandara.en01@gmail.com',
+  to: `${reservation.useremail}`,
+  subject: 'Reservation Added suceesfully - event management system',
+  html: htmlBody,
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    return res.json({status:true,message:'email sent successfully'});
+  }
+});
 
 
 
@@ -146,7 +180,7 @@ router.delete('/deletewishlist/:id', async (req, res) => {
 
   try {
    await Wishlist.findByIdAndDelete({_id:id})
-   return res.json({status:true,message:'notification  deleted successfully'});
+   return res.json({status:true,message:'Reservation  deleted successfully'});
 
   }
   catch(error){

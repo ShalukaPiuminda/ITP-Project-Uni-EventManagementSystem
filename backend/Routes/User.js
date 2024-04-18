@@ -49,7 +49,7 @@ router.post('/signin',async(req, res) => {
         return res.json({status: false, message:"Invalid password"});
     }
 
-    const token = jwt.sign({username: user.username, email:user.email},"Secret-key",{expiresIn:'1h'})
+    const token = jwt.sign({username: user.username, email:user.email,role:user.role},"Secret-key",{expiresIn:'1h'})
     res.cookie('token',token,{httpOnly:true,maxAge:3600000})
     return res.json({status: true, message:"User logged in successfully",user});
 
@@ -137,6 +137,7 @@ router.get('/users', (req, res)=>{
 router.get('/userdata', async (req, res) => {
   try {
     const token = req.cookies.token;
+    console.log(token);
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
@@ -151,7 +152,7 @@ router.get('/userdata', async (req, res) => {
 
     // Send user information to the frontend
     return res.status(200).json({userId:user._id, username: user.username ,email: user.email,
-      mobilenumber: user.mobilenumber,profileimg: user.profileimg});
+      mobilenumber: user.mobilenumber,profileimg: user.profileimg,role: user.role});
   } catch (error) {
     console.error('Error verifying token:', error);
     return res.status(500).json({ message: 'Internal server error' });
@@ -261,25 +262,26 @@ try {
 })
 
 const verifyToken = (req, res, next) => {
-  const token = req.body.token;
+  const token = req.cookies.token;
+  console.log(token);
   if (!token) {
     return res.status(401).json({ error: 'No token provided' });
   }
 
-  jwt.verify(token, 'Secret-key', (err, decoded) => {
+  jwt.verify(token, "Secret-key", (err, decoded) => {
     if (err) {
       return res.status(403).json({ error: 'Failed to authenticate token' });
     }
-    req.userId = decoded.id;
-    req.userRole = decoded.role;
+    req.username = decoded.username;
+    req.role = decoded.role;
     next();
   });
 };
 
 // Endpoint to validate token
 router.post('/validate-token', verifyToken, (req, res) => {
-  console.log(req.userId, req.userRole)
-  res.json({ valid: true, role: req.userRole });
+  //console.log(req.userId, req.userRole)
+  res.json({ valid: true, role: req.role });
 });
 
 
