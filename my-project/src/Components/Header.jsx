@@ -9,9 +9,13 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserData = async (token) => {
       try {
         const response = await fetch("http://localhost:8080/auth/userdata", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+          },
           credentials: "include",
         });
         if (response.ok) {
@@ -26,7 +30,8 @@ const Header = () => {
       }
     };
 
-    fetchUserData();
+ const token = localStorage.getItem('token');
+    fetchUserData(token);
   }, []);
 
   const handlelogin = () => {
