@@ -19,7 +19,7 @@ const Pastevents = () => {
         const videos = await response.json();
         console.log(videos);
         setVideos(videos);
-        setProfileimg(profileimg);
+   
       } catch (error) {
         console.log(error);
       }
@@ -38,6 +38,7 @@ const Pastevents = () => {
           const userData = await response.json();
           console.log(userData);
           setUserid(userData.userId);
+          setProfileimg(profileimg);
         } else {
           // Handle error
         }

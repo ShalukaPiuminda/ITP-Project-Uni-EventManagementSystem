@@ -8,6 +8,7 @@ import EventRouter from './Routes/Event.js';
 import ReservationRouter from './Routes/Reservation.js';
 import NotificationRouter from './Routes/Notification.js';
 import VideoRouter from './Routes/Video.js'
+import paymentRuoter from './Routes/Payment.js'
 
 dotenv.config();
 
@@ -28,7 +29,9 @@ app.use('/auth',UserRouter);
 app.use('/api',EventRouter);
 app.use('/Api',ReservationRouter);
 app.use('/admin',NotificationRouter)
-app.use('/video',VideoRouter)
+app.use('/video',VideoRouter);
+app.use('/pay', paymentRuoter);
+
 
 // initialize port 
 const port = process.env.PORT ||8080;

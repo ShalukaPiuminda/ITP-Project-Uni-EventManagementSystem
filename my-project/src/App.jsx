@@ -35,82 +35,102 @@ import Updatereservation from "./Pages/Updatereservation";
 import DeleteReservation from "./Pages/DeleteReservation";
 import DeleteProfile from "./Pages/DeleteProfile";
 import axios from "axios";
+import Navbar from "./Components/Navbar";
+import Header from "./Components/Header";
+import Heropage from "./Pages/Heropage";
+import Aboutus from "./Pages/Aboutus";
+import Contactus from "./Pages/Contactus";
+import TermsAndConditions from "./Pages/TermsAndConditions";
+import Verification from "./Pages/Verification";
+import PaymentDetails from "./Pages/PaymentDetails";
+import PaymentAdmin from "./Pages/PaymentAdmin";
+import { Payment } from "./Pages/Payment";
+import { PaymentContainer } from "./Pages/Payment";
+import CashPay from "./Pages/CashPay";
+import OnlinePay from "./Pages/OnlinePay";
 
 function App() {
+  const [paymentOption, setPaymentOption] = useState(null);
 
- 
-const fetchUserData = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/auth/userdata', { withCredentials: true });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+  const handlePayByCard = () => {
+    setPaymentOption("card");
+  };
 
-const UserRoute = ({ children }) => {
-  const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  const handlePayByCash = () => {
+    setPaymentOption("cash");
+  };
 
-  React.useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const userData = await fetchUserData();
-        setUser(userData);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/auth/userdata", {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
 
-    getUserData();
-  }, []);
+  const UserRoute = ({ children }) => {
+    const [user, setUser] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
-  if (loading) return <div>Loading...</div>;
+    React.useEffect(() => {
+      const getUserData = async () => {
+        try {
+          const userData = await fetchUserData();
+          setUser(userData);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-  return user && user.role === "user" ? children : <Navigate to="/login" />;
-};
+      getUserData();
+    }, []);
 
-  
-const AdminRoute = ({ children }) => {
-  const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+    if (loading) return <div>Loading...</div>;
 
-  React.useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const userData = await fetchUserData();
-        setUser(userData);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    return user && user.role === "user" ? children : <Navigate to="/login" />;
+  };
 
-    getUserData();
-  }, []);
+  const AdminRoute = ({ children }) => {
+    const [user, setUser] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
-  if (loading) return <div>Loading...</div>;
+    React.useEffect(() => {
+      const getUserData = async () => {
+        try {
+          const userData = await fetchUserData();
+          setUser(userData);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-  return user && user.role === "admin" ? children : <Navigate to="/login" />;
-};
+      getUserData();
+    }, []);
 
+    if (loading) return <div>Loading...</div>;
 
-
-
+    return user && user.role === "admin" ? children : <Navigate to="/login" />;
+  };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/home" element={
-        
-        <UserRoute>
-        <Home />
-        </UserRoute>
-        
-        }></Route>
+        <Route path="/" element={<Heropage />}></Route>
+        <Route
+          path="/home"
+          element={
+            <UserRoute>
+              <Home />
+            </UserRoute>
+          }
+        ></Route>
         <Route path="/login" element={<Signin />}></Route>
 
         <Route path="/Signup" element={<Signup />}></Route>
@@ -122,8 +142,6 @@ const AdminRoute = ({ children }) => {
             <AdminRoute>
               <AdminDashboard />
             </AdminRoute>
-            
-           
           }
         ></Route>
         <Route path="/reservation/:id" element={<Reservation />}></Route>
@@ -134,14 +152,7 @@ const AdminRoute = ({ children }) => {
           element={<ReservationDetails />}
         ></Route>
         <Route path="/addnotification" element={<Addnotification />}></Route>
-        <Route
-          path="/notification"
-          element={
-         
-              <NotigicationAdmin />
-           
-          }
-        ></Route>
+        <Route path="/notification" element={<NotigicationAdmin />}></Route>
         <Route
           path="/updatenotification/:id"
           element={<UpdateNotification />}
@@ -158,9 +169,9 @@ const AdminRoute = ({ children }) => {
         <Route
           path="/mywishlist"
           element={
-           <UserRoute>
+            <UserRoute>
               <MyWishlist />
-              </UserRoute>
+            </UserRoute>
           }
         ></Route>
         <Route
@@ -168,35 +179,53 @@ const AdminRoute = ({ children }) => {
           element={
             <UserRoute>
               <Pastevents />
-              </UserRoute>
+            </UserRoute>
           }
         ></Route>
         <Route path="/uploadvideo" element={<UploadVideo />}></Route>
         <Route path="/updatevideo/:id" element={<UpdateVideo />}></Route>
-        <Route path="/profile" element={
-        
-        <UserRoute>
-        <Profile />
-        </UserRoute>
-        
-        }></Route>
+        <Route
+          path="/profile"
+          element={
+            <UserRoute>
+              <Profile />
+            </UserRoute>
+          }
+        ></Route>
         <Route path="/editprofile/:userId" element={<EditProfile />}></Route>
         <Route path="/deleteuser/:id" element={<DeleteUser />}></Route>
         <Route path="/pastevents-admin" element={<PasteventsAdmin />}></Route>
         <Route path="/deletevideo/:id" element={<Deletevideo />}></Route>
-        <Route path="/usernotification" element={
-      <UserRoute>
-      <UserNotification />
-      </UserRoute>
-      }
+        <Route
+          path="/usernotification"
+          element={
+            <UserRoute>
+              <UserNotification />
+            </UserRoute>
+          }
         ></Route>
         <Route
           path="/userreservation"
           element={
-            
             <UserRoute>
               <UserReservations />
-              </UserRoute>
+            </UserRoute>
+          }
+        ></Route>
+        <Route
+          path="/aboutus"
+          element={
+            <UserRoute>
+              <Aboutus />
+            </UserRoute>
+          }
+        ></Route>
+        <Route
+          path="/contactus"
+          element={
+            <UserRoute>
+              <Contactus />
+            </UserRoute>
           }
         ></Route>
         <Route
@@ -208,6 +237,59 @@ const AdminRoute = ({ children }) => {
           element={<DeleteReservation />}
         ></Route>
         <Route path="/deleteprofile/:id" element={<DeleteProfile />}></Route>
+
+        <Route
+          path="./TermsandConditions"
+          element={
+            <UserRoute>
+              <TermsAndConditions />
+            </UserRoute>
+          }
+        />
+        <Route
+          path="/verification"
+          element={
+            <UserRoute>
+              <Verification />
+            </UserRoute>
+          }
+        />
+        <Route path="/PaymentDetails" element={<PaymentDetails />} />
+        <Route
+          path="/PaymentAdmin"
+          element={
+            <AdminRoute>
+              <PaymentAdmin />
+            </AdminRoute>
+          }
+        />
+        <Route path="/payment" element={
+        <UserRoute>
+       <PaymentContainer />
+       </UserRoute>
+        } />
+        <Route
+          path="/payments/:id"
+          element={
+            <div>
+              {paymentOption === null ? (
+                <>
+                <UserRoute>
+                  <Payment
+                    onPayByCard={handlePayByCard}
+                    onPayByCash={handlePayByCash}
+                  />
+                  </UserRoute>
+                </>
+              ) : (
+                <>
+                  {paymentOption === "cash" && <CashPay />}
+                  {paymentOption === "card" && <OnlinePay />}
+                </>
+              )}
+            </div>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

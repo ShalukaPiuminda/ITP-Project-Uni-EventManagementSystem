@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../Utills/Payment.css';
+import {useNavigate } from 'react-router-dom';
 
 function CashPay() {
   const [paymentSlip, setPaymentSlip] = useState(null);
@@ -13,6 +14,12 @@ function CashPay() {
     
     console.log('Payment slip uploaded:', paymentSlip);
   };
+  const navigate = useNavigate();
+  const handleProceed = () => {
+    navigate('/PaymentDetails');
+  };
+
+  
 
   return (
     <div className="container">
@@ -46,8 +53,8 @@ function CashPay() {
           </div>
         </div>
         <div className="row">
-          <input type="submit" value="Back" className="back-btn" />
-          <input type="submit" value="Submit" className="submit-btn" />
+          <input type="button" value="Back" className="back-btn" />
+          <button type="button" className="proceed-btn" onClick={handleProceed}>Submit</button>
         </div>
       </form>
     </div>
