@@ -35,7 +35,10 @@ const handleSignup = async (e) => {
       const responseData = await response.json();
       console.log(responseData);
       if(responseData.status){
+        alert("you have successfully registerd  !")
         navigate('/login');
+      }else{
+        alert("you have already registered")
       }
 
   } catch (error) {
