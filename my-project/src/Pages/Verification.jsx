@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import '../Utills/Payment.css';
+import axios from 'axios';
+import {useNavigate } from 'react-router-dom';
+
+
 
 function Verification() {
   const [verificationCode, setVerificationCode] = useState('');
   const [countdown, setCountdown] = useState(299); // 4 minutes and 59 seconds in seconds
+  
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -17,19 +22,38 @@ function Verification() {
     setVerificationCode(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle verification code submission
+    try {
+      // Make a request to your backend to send the email
+      const response = await axios.post('/api/send-verification-email', { email: 'user@example.com' });
+      console.log(response.data.message);
+      
+    } catch (error) {
+      console.error('Error sending verification email:', error);
+    }
   };
 
-  const handleResendCode = () => {
-    // Handle resend code action
+  const handleResendCode = async() => {
+    try {
+      // Make a request to your backend to resend the verification code
+      const response = await axios.post('/api/resend-verification-code', { email: 'user@example.com' });
+      console.log(response.data.message);
+    } catch (error) {
+      console.error('Error resending verification code:', error);
+    }
   };
 
   const formatTime = (seconds) => {
     const min = Math.floor(seconds / 60);
     const sec = seconds % 60;
     return `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
+  };
+
+  const navigate = useNavigate();
+  const handleProceed = () => {
+    navigate('/PaymentDetails');
   };
 
   return (
@@ -46,14 +70,11 @@ function Verification() {
             value={verificationCode}
             onChange={handleChange}
           />
-          
-          
           <button type="button" className="resend" onClick={handleResendCode}>Resend Code</button>
-          
-
         </div>
         <div className="countdown">{formatTime(countdown)}</div>
-        <button type="button" className="proceed-btn" >Proceed</button>
+        <button type="button" className="proceed-btn" onClick={handleProceed}>Proceed</button>
+
       </form>
       
     </div>

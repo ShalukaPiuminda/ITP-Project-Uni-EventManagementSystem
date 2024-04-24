@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import '../Utills/Payment.css';
-import './Payment';
+import { useNavigate, Link } from "react-router-dom";
 import Verification from './Verification';
+
+
 
 function OnlinePay() {
   const [creditCardNumber, setCreditCardNumber] = useState('');
@@ -12,6 +13,7 @@ function OnlinePay() {
   const [zipCode, setZipCode] = useState('');
   const [nameOnCard, setNameOnCard] = useState('');
   const [cvn, setCvn] = useState('');
+  const [saveCardDetails, setSaveCardDetails] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [formErrors, setFormErrors] = useState({
     creditCardNumber:'',
@@ -21,7 +23,9 @@ function OnlinePay() {
     nameOnCard:'',
     cvn: '',
   });
+  
   const navigate = useNavigate();
+
   const handleFullNameChange = (event) => {
     const value = event.target.value;
     setFullName(value);
@@ -84,7 +88,6 @@ function OnlinePay() {
     return years;
   };
 
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const isValidForm = fullName && email && zipCode && cvn && email.endsWith('@gmail.com');
@@ -99,16 +102,22 @@ function OnlinePay() {
       alert('Please fill in all required fields correctly.');
     } else {
       console.log('Form submitted successfully!');
+      if (saveCardDetails) {
+        
+      }
       navigate('/Verification');
       setShowVerification(true);
     }
-   
   };
 
-  const handleBackButton = () => {
-    navigate(-1); // Navigate to previous page
+  const handlePayment = () => {
+    navigate('/Payment');
   };
 
+  const handleTermsAndConditions = () => {
+    navigate('/TermsAndConditions');
+  };
+  
 
   return (
     <div className="container">
@@ -197,10 +206,25 @@ function OnlinePay() {
               <span className="gray-text">This is the three-letter code printed behind your card</span>
               {formErrors.cvn && <span className="error-message">{formErrors.cvn}</span>}
             </div>
+            <div className="row2">
+            <div className="inputBox">
+              <input
+                type="checkbox"
+                checked={saveCardDetails}
+                onChange={() => setSaveCardDetails(!saveCardDetails)}
+                id="saveCardDetails"
+              />
+              <label htmlFor="saveCardDetails">
+                Save my card details for faster payments.
+                <br/>
+               I agree to <Link to="/TermsAndConditions" onClick={handleTermsAndConditions} className="terms-link">Terms and Conditions</Link>.
+              </label>
+            </div>
+          </div>
           </div>
         </div>
         <div className="row">
-        <button type="button" onClick={handleBackButton} className="back-btn">Back</button>
+          <button type="button" onClick={handlePayment} className="back-btn1">Back</button>
           <button type="submit" className="submit-btn" >Proceed to Pay</button>
         </div>
       </form>

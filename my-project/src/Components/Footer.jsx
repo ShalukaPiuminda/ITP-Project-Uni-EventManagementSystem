@@ -14,7 +14,7 @@ const Footer = () => {
           <div>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
               <li className="mb-4">
-                <a href="#" className=" hover:underline text-white">
+                <a href="/home" className=" hover:underline text-white">
                   Home
                 </a>
               </li>
@@ -24,17 +24,17 @@ const Footer = () => {
                 </a>
               </li>
               <li className="mb-4">
-                <a href="#" className="hover:underline text-white">
+                <a href="/userreservation" className="hover:underline text-white">
                 Reservations
                 </a>
               </li>
               <li className="mb-4">
-                <a href="#" className="hover:underline text-white">
+                <a href="/profile" className="hover:underline text-white">
                   Profile
                 </a>
               </li>
               <li className="mb-4">
-                <a href="#" className="hover:underline text-white">
+                <a href="?pastevents" className="hover:underline text-white">
                   Past Events
                 </a>
               </li>
@@ -44,7 +44,7 @@ const Footer = () => {
           
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
               <li className="mb-4">
-                <a href="#" className="hover:underline text-white">
+                <a href="/usernotification" className="hover:underline text-white">
                  Notifications
                 </a>
               </li>
