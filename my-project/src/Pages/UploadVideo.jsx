@@ -30,19 +30,19 @@ const UploadVideo = () => {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          // Get the progress percentage
+      
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
   
-          // Set the progress to the input field value
+     
           setVideourl(`${progress}%`);
         },
         (error) => {
           console.log(error);
         },
         () => {
-          // Upload completed successfully
+          
           uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
             console.log(downloadURL);
             setVideourl(downloadURL);
@@ -170,7 +170,6 @@ const UploadVideo = () => {
               />
             </div>
 
-            {/* File Upload for Video */}
             <div class="flex items-center justify-center w-full">
               <label
                 for="dropzone-video"

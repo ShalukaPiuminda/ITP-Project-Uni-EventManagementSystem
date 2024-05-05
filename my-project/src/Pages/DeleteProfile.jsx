@@ -33,14 +33,14 @@ const DeleteProfile = () => {
                 navigate('/login');
               });
             } else {
-              navigate('/home'); // Navigate to some other page if deletion is canceled
+              navigate('/home'); 
             }
           });
         }
       })
       .catch((err) => {
         console.error("Error deleting user:", err);
-        // Optionally, you can display an error message or handle the error in another way
+   
       });
   }, [id]);
 

@@ -49,6 +49,7 @@ import { PaymentContainer } from "./Pages/Payment";
 import CashPay from "./Pages/CashPay";
 import OnlinePay from "./Pages/OnlinePay";
 
+
 function App() {
   const [paymentOption, setPaymentOption] = useState(null);
 
@@ -92,7 +93,7 @@ function App() {
 
     if (loading) return <div>Loading...</div>;
 
-    return user && user.role === "user" ? children : <Navigate to="/login" />;
+    return user && user.role === "user" || user.role ==="admin" ? children : <Navigate to="/login" />;
   };
 
   const AdminRoute = ({ children }) => {
@@ -116,7 +117,7 @@ function App() {
 
     if (loading) return <div>Loading...</div>;
 
-    return user && user.role === "admin" ? children : <Navigate to="/login" />;
+    return user && user.role === "admin" ? children : <Navigate to="/home" />;
   };
 
   return (
@@ -139,9 +140,10 @@ function App() {
         <Route
           path="/admindashboard"
           element={
-            <AdminRoute>
+           <AdminRoute>
               <AdminDashboard />
-            </AdminRoute>
+              </AdminRoute>
+     
           }
         ></Route>
         <Route path="/reservation/:id" element={<Reservation />}></Route>
@@ -196,6 +198,7 @@ function App() {
         <Route path="/deleteuser/:id" element={<DeleteUser />}></Route>
         <Route path="/pastevents-admin" element={<PasteventsAdmin />}></Route>
         <Route path="/deletevideo/:id" element={<Deletevideo />}></Route>
+        <Route path="/deletevideoadmin/:id" element={<Deletevideo />}></Route>
         <Route
           path="/usernotification"
           element={
@@ -263,22 +266,25 @@ function App() {
             </AdminRoute>
           }
         />
-        <Route path="/payment" element={
-        <UserRoute>
-       <PaymentContainer />
-       </UserRoute>
-        } />
+        <Route
+          path="/payment"
+          element={
+            <UserRoute>
+              <PaymentContainer />
+            </UserRoute>
+          }
+        />
         <Route
           path="/payments/:id"
           element={
             <div>
               {paymentOption === null ? (
                 <>
-                <UserRoute>
-                  <Payment
-                    onPayByCard={handlePayByCard}
-                    onPayByCash={handlePayByCash}
-                  />
+                  <UserRoute>
+                    <Payment
+                      onPayByCard={handlePayByCard}
+                      onPayByCash={handlePayByCash}
+                    />
                   </UserRoute>
                 </>
               ) : (
@@ -290,6 +296,10 @@ function App() {
             </div>
           }
         />
+       
+       
+
+        
       </Routes>
     </BrowserRouter>
   );

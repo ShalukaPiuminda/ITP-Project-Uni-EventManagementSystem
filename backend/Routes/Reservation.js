@@ -103,19 +103,18 @@ router.get("/getreservation/:customername/:eventname", async (req, res) => {
   console.log(customername);
 
   try {
-    // Query the Event model by ID
+   
     const reservation = await Reservation.findOne({ customername,eventname });
     console.log(reservation);
 
-    // Check if event exists
+   
     if (!reservation) {
       return res.status(404).json({ error: "Event not found" });
     }
 
-    // If event is found, return it in the response
     res.json(reservation);
   } catch (error) {
-    // Handle any errors that occur during the query
+    
     console.error("Error fetching event:", error);
     res.status(500).json({ error: "Internal server error" });
   }
@@ -264,5 +263,21 @@ router.delete('/deletereservation/:id', async (req, res) => {
   }
 });
 
+
+router.get("/searchreservation", async (req, res) => {
+  const { q } = req.query;
+  try {
+    // Convert query to string to ensure it's valid
+    const queryString = String(q).trim();
+    const reservations = await Reservation.find({ customername: { $regex: new RegExp(queryString, "i") } });
+    if (!reservations || reservations.length === 0) {
+      return res.status(404).json({ error: "No users found" });
+    }
+    res.json(reservations);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 export default router;

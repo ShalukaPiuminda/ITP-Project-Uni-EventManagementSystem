@@ -35,8 +35,8 @@ const handleSignin = async (e) => {
     console.log([...response.headers.entries()]);
     console.log(responseData);
     if (responseData.status) {
-       if(responseData.user.role==="admin") {
-        navigate('/admindashboard')
+      
+        navigate('/home')
                   
           Swal.fire({
             position: "top-end",
@@ -46,18 +46,9 @@ const handleSignin = async (e) => {
             timer: 1500
           });
 
-       }
-       else{
-        navigate('/home')
-                  
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "You have successfully login to the system.",
-            showConfirmButton: false,
-            timer: 1500
-});
-       }
+      
+    }else {
+      alert("There was a problem with your Login . check your email or password")
     }
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);

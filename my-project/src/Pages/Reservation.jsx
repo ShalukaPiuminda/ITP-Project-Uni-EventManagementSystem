@@ -118,6 +118,7 @@ const  handelReservation = async(e)=>{
     console.log(responseData);
     if (responseData.status) {
 
+      alert("reservation saved successfully !")
       navigate(`/reservationdetails/${customername}/${eventname}`);
     }
   } catch (error) {

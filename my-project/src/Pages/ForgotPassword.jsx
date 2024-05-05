@@ -30,7 +30,7 @@ const handleSubmit = async (e) => {
       const responseData = await response.json();
    
       if (responseData.status) {
-        alert("Please check your email to reset your password")// Use the navigate function to redirect
+        alert("Please check your email to reset your password")
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);

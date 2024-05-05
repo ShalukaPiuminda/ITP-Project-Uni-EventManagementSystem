@@ -86,4 +86,19 @@ router.delete('/deletevideo/:id', async (req, res) => {
 
 
 
+router.get("/searchvideo", async (req, res) => {
+  const { q } = req.query;
+  try {
+    // Convert query to string to ensure it's valid
+    const queryString = String(q).trim();
+    const videos = await Video.find({ videotitle: { $regex: new RegExp(queryString, "i") } });
+    if (!videos || videos.length === 0) {
+      return res.status(404).json({ error: "No users found" });
+    }
+    res.json(videos);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 export default router;

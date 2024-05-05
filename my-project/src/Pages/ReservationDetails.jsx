@@ -46,9 +46,9 @@ useEffect(() => {
     }
   };
 
-  fetchReservation(); // Call the fetchReservation function
+  fetchReservation();
 
-}, []); // Ensure that the dependency array is closed properly
+}, []); 
 
 
 const addToWishlist =async ()=>{

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const Deletevideo = () => {
+const DeletevideoAdmin = () => {
 
     const { id } = useParams();
 
@@ -30,14 +30,14 @@ useEffect (() => {
                   icon: "success"
                 });
               }
-              navigate('/pastevents');
+              navigate('/pastevents-admin');
             });
-            navigate("/pastevents");
+            navigate("/pastevents-admin");
           }
         })
         .catch((err) => {
           console.error("Error deleting user:", err);
-         
+
         });
     }, []);
   };
@@ -48,4 +48,4 @@ useEffect (() => {
   
 
 
-export default Deletevideo
+export default DeletevideoAdmin;
