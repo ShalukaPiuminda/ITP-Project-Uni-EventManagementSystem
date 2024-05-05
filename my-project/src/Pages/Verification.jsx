@@ -7,7 +7,7 @@ import {useNavigate } from 'react-router-dom';
 
 function Verification() {
   const [verificationCode, setVerificationCode] = useState('');
-  const [countdown, setCountdown] = useState(299); // 4 minutes and 59 seconds in seconds
+  const [countdown, setCountdown] = useState(299); 
   
 
   useEffect(() => {
@@ -24,9 +24,9 @@ function Verification() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle verification code submission
+   
     try {
-      // Make a request to your backend to send the email
+    
       const response = await axios.post('/api/send-verification-email', { email: 'user@example.com' });
       console.log(response.data.message);
       
@@ -37,7 +37,7 @@ function Verification() {
 
   const handleResendCode = async() => {
     try {
-      // Make a request to your backend to resend the verification code
+    
       const response = await axios.post('/api/resend-verification-code', { email: 'user@example.com' });
       console.log(response.data.message);
     } catch (error) {

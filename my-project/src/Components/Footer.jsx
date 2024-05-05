@@ -34,7 +34,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="mb-4">
-                <a href="?pastevents" className="hover:underline text-white">
+                <a href="/pastevents" className="hover:underline text-white">
                   Past Events
                 </a>
               </li>

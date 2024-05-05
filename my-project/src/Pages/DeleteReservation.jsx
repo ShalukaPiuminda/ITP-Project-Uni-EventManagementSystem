@@ -15,7 +15,7 @@ const navigate = useNavigate();
         if (res.data.status) {
           Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: "",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -35,7 +35,7 @@ const navigate = useNavigate();
       })
       .catch((err) => {
         console.error("Error deleting user:", err);
-        // Optionally, you can display an error message or handle the error in another way
+      
       });
   }, []);
 

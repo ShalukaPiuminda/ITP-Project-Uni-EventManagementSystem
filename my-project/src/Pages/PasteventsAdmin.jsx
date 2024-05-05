@@ -23,9 +23,7 @@ const [profileimg,setProfileimg] = useState();
           console.log(userData);
           setVideos(userData);
         
-        } else {
-          // Handle error
-        }
+        } 
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -45,9 +43,7 @@ const [profileimg,setProfileimg] = useState();
           console.log(userData);
           setProfileimg(userData.profileimg);
         
-        } else {
-          // Handle error
-        }
+        } 
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -137,7 +133,7 @@ const [profileimg,setProfileimg] = useState();
                   
                     
                   <a
-                    href={`/deletevideo/${video._id}`}
+                    href={`/deletevideoadmin/${video._id}`}
                     className="my-10 mx-5 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Delete

@@ -13,7 +13,7 @@ const Slideshow = ({ images }) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Change slide every 3 seconds
+    }, 3000); 
 
     return () => clearInterval(intervalId);
   }, [images.length]);

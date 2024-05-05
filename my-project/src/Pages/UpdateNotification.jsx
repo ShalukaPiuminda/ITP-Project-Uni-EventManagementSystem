@@ -61,7 +61,7 @@ useEffect(() => {
           text: "You clicked the button!",
           icon: "success"
         });
-        navigate('/notification')// Use the navigate function to redirect
+        navigate('/notification')
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);

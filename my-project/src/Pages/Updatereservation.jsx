@@ -60,6 +60,7 @@ const handleUpdate = (e) => {
       })
       .then((res) => {
         if (res.data.status) {
+          alert(" Reservation updated successfully ");
           navigate('/userreservation');
         } else {
           console.error('Error updating reservation:', res.data.message);

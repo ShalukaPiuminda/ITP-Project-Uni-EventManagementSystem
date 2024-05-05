@@ -53,20 +53,17 @@ useEffect(() => {
           const videoData = await response.json();
           console.log(videoData);
 
-          // Set video data into state
           setVideotitle(videoData.videotitle);
           setVideodescription(videoData.videodescription);
           setVideourl(videoData.videourl);
-        } else {
-          // Handle error
-        }
+        } 
       } catch (error) {
         console.error('Error fetching video data:', error);
       }
     };
 
     fetchVideo();
-  }, [id]); // Add id as dependency to refetch data when id changes
+  }, [id]); 
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -92,7 +89,7 @@ useEffect(() => {
       if (responseData.status) {
 
         Swal.fire("Update video successfully");
-        navigate('/pastevents')// Use the navigate function to redirect
+        navigate('/pastevents')
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -142,7 +139,7 @@ useEffect(() => {
           />
         </div>
 
-        {/* File Upload for Video */}
+        
         <div class="flex items-center justify-center w-full">
           <label
             for="dropzone-video"

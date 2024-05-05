@@ -58,6 +58,7 @@ const MyWishlist = () => {
     axios.delete(`http://localhost:8080/Api/deletewishlist/${reservationId}`)
       .then((res) => {
         if (res.data.status) {
+          alert("Reservation deleted successfully")
           navigate('/mywishlist');
         }
       })

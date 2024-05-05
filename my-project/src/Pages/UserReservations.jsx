@@ -20,7 +20,7 @@ const UserReservations = () => {
         const jsonData = await response.json();
         setReservations(jsonData);
 
-        // Group reservations by event name
+      
         const grouped = jsonData.reduce((acc, reservation) => {
           acc[reservation.eventname] = acc[reservation.eventname] || [];
           acc[reservation.eventname].push(reservation);
@@ -67,7 +67,7 @@ const UserReservations = () => {
           <h1 className="text-5xl font-bold tracking-tight">Reservations</h1>
         </div>
 
-        {/* Display reservations grouped by event name */}
+       
         {Object.entries(groupedReservations).map(
           ([eventName, reservations]) => (
             <div key={eventName}>
@@ -116,7 +116,7 @@ const UserReservations = () => {
           )
         )}
 
-        {/* Download button */}
+      
       </div>
       <Footer />
     </>

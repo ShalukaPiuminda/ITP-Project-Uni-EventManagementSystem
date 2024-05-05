@@ -95,7 +95,7 @@ const EditProfile = () => {
       const responseData = await response.json();
    
       if (responseData.status) {
-        navigate('/profile')// Use the navigate function to redirect
+        navigate('/profile')
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);

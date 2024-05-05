@@ -28,9 +28,7 @@ const Profile = () => {
           setEmail(userData.email);
           setMobilenumber(userData.mobilenumber);
           setProfileimg(userData.profileimg);
-        } else {
-          // Handle error
-        }
+        } 
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -51,9 +49,7 @@ const Profile = () => {
           const reservations = await response.json();
           console.log(reservations);
           setReservations(reservations);
-        } else {
-          // Handle error
-        }
+        } 
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
