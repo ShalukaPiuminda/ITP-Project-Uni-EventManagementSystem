@@ -1,5 +1,6 @@
 import React, { Children, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 import "./App.css";
 import Home from "./Pages/Home";
@@ -48,6 +49,7 @@ import { Payment } from "./Pages/Payment";
 import { PaymentContainer } from "./Pages/Payment";
 import CashPay from "./Pages/CashPay";
 import OnlinePay from "./Pages/OnlinePay";
+import Deactivatedmsg from "./Pages/Deactivatedmsg";
 
 
 function App() {
@@ -63,8 +65,12 @@ function App() {
 
   const fetchUserData = async () => {
     try {
+      const token = Cookies.get('token');
       const response = await axios.get("http://localhost:8080/auth/userdata", {
         withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
       });
       return response.data;
     } catch (error) {
@@ -93,7 +99,7 @@ function App() {
 
     if (loading) return <div>Loading...</div>;
 
-    return user && user.role === "user" || user.role ==="admin" ? children : <Navigate to="/login" />;
+    return user && (user.role === "user" || user.role ==="admin") ? children : <Navigate to="/login" />;
   };
 
   const AdminRoute = ({ children }) => {
@@ -294,6 +300,14 @@ function App() {
                 </>
               )}
             </div>
+          }
+        />
+        <Route
+          path="/deactivatedmsg"
+          element={
+           
+              <Deactivatedmsg />
+           
           }
         />
        

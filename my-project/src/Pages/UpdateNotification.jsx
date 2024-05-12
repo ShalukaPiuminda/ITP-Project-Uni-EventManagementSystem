@@ -74,7 +74,7 @@ useEffect(() => {
     <div className="bg-white " >
       <form className="space-y-6" onSubmit={handleUpdate}>
         <h5 className="text-xl font-medium text-gray-900 dark:text-white">
-          Add a new notification
+          Update notification
         </h5>
 
         <div>

@@ -37,6 +37,10 @@ router.post("/signin", async (req, res) => {
     return res.json({ status: false, message: "User not found" });
   }
 
+  if(user.status==="deactivated"){
+    return res.json({ status: false,type:"deactivated",  message: "User is deactivated" });
+  }
+
   const validPassword = await bcrypt.compare(password, user.password);
 
   if (!validPassword) {
@@ -145,6 +149,7 @@ router.get("/userdata", async (req, res) => {
         mobilenumber: user.mobilenumber,
         profileimg: user.profileimg,
         role: user.role,
+        status: user.status
       });
   } catch (error) {
     console.error("Error verifying token:", error);
@@ -283,4 +288,67 @@ router.get("/searchuser", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+router.post("/deactivateaccount/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await User.findByIdAndUpdate(
+      { _id: id },
+      {
+        status:"deactivated"
+      }
+    );
+    res.clearCookie("token");
+    return res.json({ status: true, message: "Your account de-activated successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/google", async (req, res) => {
+  const { username, email, profileimg, mobilenumber } = req.body;
+  console.log(req.body);
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    const newUser = new User({
+      username,
+      email,
+      profileimg,
+      mobilenumber,
+    });
+    await newUser.save();
+  }
+
+  // Generate JWT token
+  const token = jwt.sign(
+    {
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    },
+    "Secret-key",
+    { expiresIn: "1h" }
+  );
+
+  // Set the token in response cookie
+  res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+
+  // Send response JSON
+  return res.json({
+    status: true,
+    message: "User logged in successfully",
+    user: {
+      username: user.username,
+      email: user.email,
+      profileimg: user.profileimg,
+      mobilenumber: user.mobilenumber,
+    },
+  });
+});
+
+
+
 export default router;
