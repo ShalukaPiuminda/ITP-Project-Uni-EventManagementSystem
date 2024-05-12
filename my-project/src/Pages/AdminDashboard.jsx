@@ -139,6 +139,9 @@ const AdminDashboard = () => {
                 Role
               </th>
               <th scope="col" className="px-6 py-3">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3">
                 <span className="sr-only">Remove</span>
               </th>
             </tr>
@@ -157,6 +160,7 @@ const AdminDashboard = () => {
                 </th>
                 <td className="px-6 py-4">{user.email}</td>
                 <td className="px-6 py-4">{user.role}</td>
+                <td className="px-6 py-4">{user.status}</td>
                 <td className="px-6 py-4 text-right">
                   <a
                     href={`/deleteuser/${user._id}`}
