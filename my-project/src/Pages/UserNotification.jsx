@@ -5,6 +5,7 @@ import Footer from "../Components/Footer";
 
 const UserNotification = () => {
   const [notifications, setNotifications] = useState([]);
+  const [newNotificationCount, setNewNotificationCount] = useState(0); 
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -17,6 +18,8 @@ const UserNotification = () => {
         }
         const jsonData = await response.json();
         setNotifications(jsonData);
+        setNewNotificationCount(jsonData.length);
+
       } catch (error) {
         console.log(error);
       }
@@ -28,10 +31,10 @@ const UserNotification = () => {
   return (
     <>
     <Header/>
-    <Navbar/>
+    <Navbar newNotificationCount={newNotificationCount} />
       <div className=" bg-gray-100 ">
            <div className="mt-10 flex items-center justify-center " >
-              <h2 className="text-xl">All notifications</h2>
+              <h2 className="text-3xl font-bold">All notifications</h2>
            </div>
     
 
@@ -39,6 +42,8 @@ const UserNotification = () => {
           {notifications.map((notification) => (
             <div class="p-5 my-10">
               <div className="flex my-10  max-w-5xl bg-red-200 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              
+              
                 <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-200 text-gray-600  dark:bg-gray-700 dark:text-gray-400">
                 {notification.publishername.substring(0, 1).toUpperCase()}
                 </div>

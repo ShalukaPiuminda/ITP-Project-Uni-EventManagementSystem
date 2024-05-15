@@ -8,7 +8,10 @@ import EventRouter from './Routes/Event.js';
 import ReservationRouter from './Routes/Reservation.js';
 import NotificationRouter from './Routes/Notification.js';
 import VideoRouter from './Routes/Video.js'
-import paymentRuoter from './Routes/Payment.js'
+import cardRoute from './Routes/cardroutes.js'
+import cashRoute from './Routes/cashroutes.js'
+import FeedbackRoutes from './Routes/FeedbackRoute.js'
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -23,6 +26,12 @@ app.use(cors(
         methods:["GET", "POST", "PUT","DELETE"],
     }
 ));
+
+
+// Increase the limit for request payload size
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
 app.use(cookieParser())
 
 app.use('/auth',UserRouter);
@@ -30,7 +39,9 @@ app.use('/api',EventRouter);
 app.use('/Api',ReservationRouter);
 app.use('/admin',NotificationRouter)
 app.use('/video',VideoRouter);
-app.use('/pay', paymentRuoter);
+app.use('/cardpay',cardRoute);
+app.use('/cashpay',cashRoute);
+app.use('/feedback',FeedbackRoutes);
 
 
 // initialize port 

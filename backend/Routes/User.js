@@ -201,13 +201,13 @@ router.delete("/deleteuser/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Check if the user exists
+
     const user = await User.findById(id);
     if (!user) {
       return res.status(404).json({ status: false, message: "User not found" });
     }
 
-    // Delete the user
+
     await User.findByIdAndDelete(id);
     return res.json({ status: true, message: "User deleted successfully" });
   } catch (error) {
@@ -222,13 +222,13 @@ router.delete("/deleteprofile/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Check if the user exists
+  
     const user = await User.findById(id);
     if (!user) {
       return res.status(404).json({ status: false, message: "User not found" });
     }
 
-    // Delete the user
+   
     await User.findByIdAndDelete(id);
 
     res.clearCookie("token");
@@ -269,14 +269,14 @@ const verifyToken = (req, res, next) => {
 };
 
 router.post("/validate-token", verifyToken, (req, res) => {
-  //console.log(req.userId, req.userRole)
+
   res.json({ valid: true, role: req.role });
 });
 
 router.get("/searchuser", async (req, res) => {
   const { q } = req.query;
   try {
-    // Convert query to string to ensure it's valid
+  
     const queryString = String(q).trim();
     const users = await User.find({ username: { $regex: new RegExp(queryString, "i") } });
     if (!users || users.length === 0) {
@@ -322,7 +322,6 @@ router.post("/google", async (req, res) => {
     await newUser.save();
   }
 
-  // Generate JWT token
   const token = jwt.sign(
     {
       username: user.username,
@@ -333,10 +332,10 @@ router.post("/google", async (req, res) => {
     { expiresIn: "1h" }
   );
 
-  // Set the token in response cookie
+
   res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
 
-  // Send response JSON
+
   return res.json({
     status: true,
     message: "User logged in successfully",

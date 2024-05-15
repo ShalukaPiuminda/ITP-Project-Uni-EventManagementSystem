@@ -7,7 +7,7 @@ import Header from '../Components/Header';
 import NavbarAdmin from '../Components/NavbarAdmin';
 import Footer from '../Components/Footer';
 
-function PaymentDetails(){
+function CashDetails(){
     const componentPDF=useRef();
     const [showdiscounts,setshowdiscounts]=useState([]);
     const [searchkey,setsearchkey]=useState('');
@@ -15,7 +15,7 @@ function PaymentDetails(){
 //read
 const getfetchdata=async()=>{
     try{
-    const data=await axios.get("http://localhost:8080/cardpay/_payment")
+    const data=await axios.get("http://localhost:8080/cashpay/_users")
     console.log(data.data.success)
     if(data.data.success){
         setshowdiscounts(data.data.data)
@@ -30,11 +30,11 @@ useEffect(()=>{
 
 //delete
 const handledelete= async(id)=>{
-    const data=await axios.delete("http://localhost:8080/cardpay/delete_payment/"+id)
+    const data=await axios.delete("http://localhost:8080/cashpay/delete_users/"+id)
     if(data.data.success){
         getfetchdata()
         console.log(data.data.message)
-        alert("Order item deleted Successfully!")
+        alert(" deleted Successfully!")
     }
 }
 //generatePDF
@@ -43,14 +43,14 @@ const generatePDF=useReactToPrint({
     documentTitle:"show services ",
     onAfterPrint:()=>alert("data save in pdf")
 })
-//serach
+//search
 const handlesearch = (e) => {
 
     filterdata(searchkey);
 }
 const filterdata = (searchKey) => {
     const filteredData = showdiscounts.filter(customer =>
-        customer.U_name&&customer.U_name.toLowerCase().includes(searchKey.toLowerCase())
+        customer.first_name.toLowerCase().includes(searchKey.toLowerCase())
     );
     setshowdiscounts(filteredData);
 }
@@ -58,9 +58,9 @@ const filterdata = (searchKey) => {
     return(
 
         <>
-      <Header/>
-      <NavbarAdmin/>
-        <AdminHeader/>
+        <Header/>
+        <NavbarAdmin/>
+       <AdminHeader/>
         <div className="showorders">
              <div className='searchbtn'>
         <input  type="search" onChange={(e)=>setsearchkey(e.target.value)} placeholder='search' className='in'/> <t></t> 
@@ -71,33 +71,31 @@ const filterdata = (searchKey) => {
  <table>
               
               <tr>
-              <th>User Name</th>
-              <th>Card Number</th>
-              <th>Card Holder</th>
-              <th>Expiry Date</th>
-              <th>CVC</th>
-              <th>Coupon Date</th>
+              <th>Full Name</th>
+              <th>Address</th>
+              <th>Email</th>
+              <th>Image Url</th>
               <th>Action</th>
- 
+             
+
               </tr>
 
-     
+  
               <tbody>
                   { 
                      showdiscounts.map((e1)=>{
                       return(
                           <tr> 
-                            <td> {e1.U_name}</td> 
-                            <td> {e1.card_number}</td> 
-                            <td> {e1.card_holder}</td> 
-                            <td> {e1.expir_date}</td> 
-                            <td> {e1.cvc}</td> 
-                            <td> {e1.coupon_code}</td> 
+                            <td> {e1.first_name}</td> 
+                            <td> {e1.address}</td> 
+                            <td> {e1.email}</td> 
+                            <td> {e1.imageURL}</td> 
+                          
                          
                            
                             <td>
-                              <a href={`/updateorder_payment/${e1._id}`}>Approve </a>
-                              <button onClick={()=>handledelete(e1._id)}>Reject </button>
+                              <a href={`/updatecash/${e1._id}`}>Update</a>
+                              <button onClick={()=>handledelete(e1._id)}>Delete </button>
                             </td>
                           </tr>
                       )
@@ -113,4 +111,4 @@ const filterdata = (searchKey) => {
         </>
     )
 }
-export default PaymentDetails;
+export default CashDetails;

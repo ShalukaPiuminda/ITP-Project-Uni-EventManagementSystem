@@ -1,6 +1,6 @@
 import React, { Children, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 import "./App.css";
 import Home from "./Pages/Home";
@@ -36,21 +36,26 @@ import Updatereservation from "./Pages/Updatereservation";
 import DeleteReservation from "./Pages/DeleteReservation";
 import DeleteProfile from "./Pages/DeleteProfile";
 import axios from "axios";
-import Navbar from "./Components/Navbar";
-import Header from "./Components/Header";
+
 import Heropage from "./Pages/Heropage";
 import Aboutus from "./Pages/Aboutus";
 import Contactus from "./Pages/Contactus";
 import TermsAndConditions from "./Pages/TermsAndConditions";
-import Verification from "./Pages/Verification";
-import PaymentDetails from "./Pages/PaymentDetails";
-import PaymentAdmin from "./Pages/PaymentAdmin";
-import { Payment } from "./Pages/Payment";
-import { PaymentContainer } from "./Pages/Payment";
-import CashPay from "./Pages/CashPay";
-import OnlinePay from "./Pages/OnlinePay";
-import Deactivatedmsg from "./Pages/Deactivatedmsg";
 
+import Deactivatedmsg from "./Pages/Deactivatedmsg";
+import EventForm from "./Pages/EventForm";
+import Eventdetails from "./Pages/Eventdetails";
+import UpdateEvent from "./Pages/UpdateEvent";
+import AddCashPayment from "./Pages/cash";
+import AddPayment from "./Pages/addpayment";
+import CashDetails from "./Pages/cashdetails";
+import UpdateCash from "./Pages/Updatecash";
+import UpdatePayment from "./Pages/UpdatePayment";
+import PaymentDetails from "./Pages/paymentdetails";
+import AddFeedback from "./Pages/AddFeedback";
+import ViewAllFeedbacks from "./Pages/ViewAllFeedbacks";
+import UpdateFeedback from "./Pages/UpdateFeedback";
+import ViewAllAdminFeedbacks from "./Pages/ViewAllAdminFeedbacks";
 
 function App() {
   const [paymentOption, setPaymentOption] = useState(null);
@@ -65,11 +70,11 @@ function App() {
 
   const fetchUserData = async () => {
     try {
-      const token = Cookies.get('token');
+      const token = Cookies.get("token");
       const response = await axios.get("http://localhost:8080/auth/userdata", {
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -99,7 +104,11 @@ function App() {
 
     if (loading) return <div>Loading...</div>;
 
-    return user && (user.role === "user" || user.role ==="admin") ? children : <Navigate to="/login" />;
+    return user && (user.role === "user" || user.role === "admin") ? (
+      children
+    ) : (
+      <Navigate to="/login" />
+    );
   };
 
   const AdminRoute = ({ children }) => {
@@ -146,10 +155,9 @@ function App() {
         <Route
           path="/admindashboard"
           element={
-           <AdminRoute>
+            <AdminRoute>
               <AdminDashboard />
-              </AdminRoute>
-     
+            </AdminRoute>
           }
         ></Route>
         <Route path="/reservation/:id" element={<Reservation />}></Route>
@@ -255,65 +263,35 @@ function App() {
             </UserRoute>
           }
         />
-        <Route
-          path="/verification"
-          element={
-            <UserRoute>
-              <Verification />
-            </UserRoute>
-          }
-        />
-        <Route path="/PaymentDetails" element={<PaymentDetails />} />
-        <Route
-          path="/PaymentAdmin"
-          element={
-            <AdminRoute>
-              <PaymentAdmin />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/payment"
-          element={
-            <UserRoute>
-              <PaymentContainer />
-            </UserRoute>
-          }
-        />
-        <Route
-          path="/payments/:id"
-          element={
-            <div>
-              {paymentOption === null ? (
-                <>
-                  <UserRoute>
-                    <Payment
-                      onPayByCard={handlePayByCard}
-                      onPayByCash={handlePayByCash}
-                    />
-                  </UserRoute>
-                </>
-              ) : (
-                <>
-                  {paymentOption === "cash" && <CashPay />}
-                  {paymentOption === "card" && <OnlinePay />}
-                </>
-              )}
-            </div>
-          }
-        />
-        <Route
-          path="/deactivatedmsg"
-          element={
-           
-              <Deactivatedmsg />
-           
-          }
-        />
-       
-       
 
-        
+        <Route path="/deactivatedmsg" element={<Deactivatedmsg />} />
+
+        <Route
+          path="/event"
+          element={
+            <UserRoute>
+              <EventForm />
+            </UserRoute>
+          }
+        ></Route>
+        <Route path="/registerdetails" element={<Eventdetails />}></Route>
+        <Route path="/updateuser/:id" element={<UpdateEvent />}></Route>
+
+        <Route path="/pay/:id" element={<AddCashPayment />}></Route>
+        <Route path="/addpayment" element={<AddPayment />}></Route>
+
+        <Route path="/paymentdetails" element={<PaymentDetails />}></Route>
+        <Route path="/cashdetails" element={<CashDetails />}></Route>
+        <Route path="/updatecash/:id" element={<UpdateCash />}></Route>
+        <Route
+          path="/updateorder_payment/:id"
+          element={<UpdatePayment />}
+        ></Route>
+
+        <Route path="/add-feedback" element={<AddFeedback />} />
+        <Route path="/feedback" element={<ViewAllFeedbacks />} />
+        <Route path="/update-feedback/:id" element={<UpdateFeedback />} />
+        <Route path="/feedbackadmin" element={<ViewAllAdminFeedbacks />} />
       </Routes>
     </BrowserRouter>
   );

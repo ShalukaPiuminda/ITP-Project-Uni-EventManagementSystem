@@ -1,0 +1,69 @@
+.showorders {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 10%;
+  }
+  
+  .showorders table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .showorders th,
+  .showorders td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .showorders th {
+    background-color: #f2f2f2;
+  }
+  
+  .showorders tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .showorders tbody tr:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .showorders a {
+    text-decoration: none;
+    color: #0b6b28;
+    margin-right: 10px;
+  }
+  
+  .showorders a:hover {
+    text-decoration: underline;
+  }
+  
+  .showorders button {
+    padding: 5px 10px;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .showorders button:hover {
+    background-color: #c82333;
+  }
+  .add-event-btn {
+    position: absolute;
+    top: 200px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-event-btn:hover {
+    background-color: #0056b3;
+}

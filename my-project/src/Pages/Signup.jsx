@@ -12,10 +12,31 @@ const [Username , setUsername] =useState('');
 const [email , setEmail] =useState('');
 const [password , setPassword] =useState('');
 const [mobilenumber , setMobilenumber] =useState('');
+const [passwordError, setPasswordError] = useState('');
+const [mobilenumberError, setMobilenumberError] = useState('');
 const navigate = useNavigate();
 
 const handleSignup = async (e) => {
   e.preventDefault();
+  setPasswordError('');
+  setMobilenumberError('');
+
+  let isValid = true;
+
+  if (password.length < 6) {
+    setPasswordError('Password must be at least 6 characters long');
+    isValid = false;
+  }
+  if (!/^\d+$/.test(mobilenumber)) {
+    setMobilenumberError('Mobile Number must contain only digits');
+    isValid = false;
+  }
+  if (!isValid) {
+    return;
+  }
+
+
+
   try {
       const response = await fetch('http://localhost:8080/auth/signup', {
           method: 'POST',
@@ -117,6 +138,9 @@ const handleSignup = async (e) => {
                 required
                 onChange={(e)=>setPassword(e.target.value)}
               />
+               {passwordError && (
+                <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+              )}
             </div>
            
             <div>
@@ -135,6 +159,11 @@ const handleSignup = async (e) => {
                 required
                 onChange={(e)=>setMobilenumber(e.target.value)}
               />
+                 {mobilenumberError && (
+                <p className="text-red-500 text-sm mt-1">
+                  {mobilenumberError}
+                </p>
+              )}
             </div>
            
             <button

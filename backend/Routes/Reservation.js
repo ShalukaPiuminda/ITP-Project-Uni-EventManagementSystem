@@ -264,4 +264,26 @@ router.delete('/deletereservation/:id', async (req, res) => {
 });
 
 
+
+router.get("/searchreservation", async (req, res) => {
+  const { q } = req.query;
+  console.log(q);
+  try {
+  
+    const queryString = String(q).trim();
+    const reservations = await Reservation.find({ customername: { $regex: new RegExp(queryString, "i") } });
+    if (!reservations || reservations.length === 0) {
+      return res.status(404).json({ error: "No users found" });
+    }
+    res.json(reservations);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
+
+
 export default router;
