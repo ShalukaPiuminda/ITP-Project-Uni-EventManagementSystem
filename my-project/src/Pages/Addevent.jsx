@@ -86,7 +86,7 @@ const handleEvent = async (e) => {
     }).then((res)=>{
         console.log(res.data);
         if(res.data.status){
-            navigate('/evnt-admin')
+            navigate('/registerdetails')
         }
     }).catch(error=>{
         console.log(error)

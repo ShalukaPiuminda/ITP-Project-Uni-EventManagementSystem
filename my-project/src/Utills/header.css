@@ -1,0 +1,29 @@
+.navbar {
+  display: flex;
+  justify-content: center; /* Center the items horizontally */
+  align-items: center; /* Center the items vertically */
+  background-color: #ffffff; /* Background color for the navbar */
+  padding: 10px; /* Padding around the navbar */
+}
+
+.navbar a {
+  color: black; /* Text color */
+  text-align: center; /* Center the text */
+  padding: 14px 20px; /* Padding around the links */
+  text-decoration: none; /* Remove underline from links */
+  display: block; /* Make the links block elements */
+}
+
+.navbar a:hover {
+  background-color: #8ed190; /* Background color on hover */
+  color: rgb(20, 18, 18); /* Text color on hover */
+}
+
+.navbar a.active {
+  border-bottom: 8px solid black; /* Underline the active link */
+}
+
+.navbar a:focus,
+.navbar a:visited {
+  outline: none; /* Remove the outline on focus */
+}

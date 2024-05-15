@@ -78,5 +78,108 @@ router.get('/geteventbyname/:eventname', async (req, res) => {
     }
 });
 
- 
+
+
+
+
+router.get("/_event",async(req,res)=>{
+    const data= await Event.find({})
+  
+    res.json({success:true,data:data})
+})
+
+
+router.post("/create_event",async(req,res)=>{
+    const data=new Event(req.body)
+    await data.save()
+    res.send({success:true,message:"data created successfuly"})
+})
+
+
+router.put("/update_event",async(req,res)=>{
+    const {id,...rest}=req.body
+    const data=await Event.updateOne({_id:id},rest)
+    res.send({success:true,message:"updated successfuly",data:data})
+})
+
+
+
+
+router.delete("/delete_event/:id",async(req,res)=>{
+const id=req.params.id
+const data=await Event.deleteOne({_id:id})
+res.send({success:true,message:"deleted successfully",data:data})
+})
+
+
+
+
+router.get("/count_event",async(req,res)=>{
+    try{
+        const users=await Event.find({});
+
+        return res.status(200).json({
+            count:users.length,
+            data:users
+        })
+
+    }catch(err){
+            console.log(err.message);
+            res.json({success:true,message:"Order count successfully",data:data})
+    }
+
+})
+
+router.get("/order_event/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const order = await Event.findById(id);
+
+        if (!order) {
+            return res.status(404).send({ success: false, message: "User not found" });
+        }
+
+        res.send({ success: true, message: "User fetched successfully", data: order });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, message: "Internal Server Error" });
+    }
+});
+
+router.get("/searcheventsbydate", async (req, res) => {
+    const { q } = req.query; 
+    console.log(q)
+    // Assuming q is the date string like "11/05/2024"
+    try {
+      const queryString = String(q).trim();
+      const events = await Event.find({ date: queryString }); // Assuming 'date' is the field in your Event model
+      /*if (!events || events.length === 0) {
+        return res.json({ error: "No events found" });
+      }*/
+      res.json(events);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+  
+  router.get("/searchEvent", async (req, res) => {
+    const { q } = req.query;
+    console.log(q);
+    try {
+      const queryString = String(q).trim();
+      const events = await Event.find({ eventname: { $regex: new RegExp(queryString, "i") } });
+      if (!events || events.length === 0) {
+        return res.status(404).json({ error: "No events found" });
+      }
+      res.json(events);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+  
+  
+  
 export default router;

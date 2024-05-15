@@ -7,8 +7,8 @@ const eventSchema = new mongoose.Schema({
     date: { type: String },
     time: { type: String },
     venue: { type: String },
-    ticketprice: { type: Number }, // Updated key name
-    imageUrl: { type: String } // Updated key name
+    ticketprice: { type: Number }, 
+    imageUrl: { type: String } 
 }, { timestamps: true });
 
 

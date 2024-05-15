@@ -1,0 +1,62 @@
+.feedback-card {
+    background-color: #E3F8DA;
+    border: 1px solid #314edf;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.feedback-card h2 {
+    color: #314edf;
+}
+
+.feedback-card form {
+    margin-top: 20px;
+}
+
+.feedback-card label {
+    font-weight: bold;
+}
+
+.feedback-card .submit-button {
+    margin-top: 25px;
+    background-color: #314edf;
+    border-color: #314edf;
+}
+
+.star-ratings {
+    display: flex;
+    justify-content: center;
+}
+
+.star-ratings .star-rating {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.star-ratings .star-rating:last-child {
+    margin-left: 10px;
+}
+
+.star-ratings .star-rating:hover,
+.star-ratings .star-rating:hover ~ .star-rating {
+    color: #FFD700;
+}
+
+.star-ratings .star-rating.selected,
+.star-ratings .star-rating.selected ~ .star-rating {
+    color: #FFD700;
+}
+
+.star-ratings .star-rating {
+    font-size: 25px;
+}

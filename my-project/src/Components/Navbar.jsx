@@ -1,9 +1,10 @@
 // Navbar.js
 import React, { useState } from "react";
 
-const Navbar = () => {
+const Navbar = ({newNotificationCount }) => {
 
   const [showDropdown, setShowDropdown] = useState(false);
+
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -16,6 +17,12 @@ const Navbar = () => {
   const handleMouseLeave = () => {
     setShowDropdown(false);
   };
+
+
+ // const handleNotificationClick = () => {
+    // Reset new notification count when notification is clicked
+   // setNewNotificationCount(0);
+  //};
 
   return (
     <>
@@ -96,7 +103,7 @@ const Navbar = () => {
                
                 <li>
                   <a
-                    href="#"
+                    href="/feedback"
                     className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
                     aria-current="page"
                   >
@@ -116,10 +123,11 @@ const Navbar = () => {
                 <li>
                   <a
                     href="/usernotification"
+                  //  onClick={handleNotificationClick}
                     className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
                     aria-current="page"
                   >
-                 Notification
+                Notification ({newNotificationCount})
                   </a>
                 </li>
                

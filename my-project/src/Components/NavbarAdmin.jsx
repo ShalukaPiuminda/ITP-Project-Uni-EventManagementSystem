@@ -10,7 +10,7 @@ const NavbarAdmin = () => {
   return (
     <>
       <div>
-        <nav className="bg-blue-900 border-b-200 dark:bg-gray-900">
+        <nav className="bg-blue-900 border-b-200 dark:bg-gray-900 mb-10">
           <div className="max-w-screen-xl flex flex-wrap items-center gap-10 justify-end mx-auto p-4">
             <div
               className="hidden w-full md:block md:w-auto"
@@ -28,7 +28,7 @@ const NavbarAdmin = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/registerdetails"
                     className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
                     aria-current="page"
                   >
@@ -47,7 +47,7 @@ const NavbarAdmin = () => {
                
                 <li>
                   <a
-                    href="/PaymentAdmin"
+                    href="/paymentdetails"
                     className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
                     aria-current="page"
                   >
@@ -67,7 +67,7 @@ const NavbarAdmin = () => {
                
                 <li>
                   <a
-                    href="#"
+                    href="/feedbackadmin"
                     className="block py-2 px-3 text-white bg-blue-900 rounded md:bg-transparent md:text-white md:p-0 dark:text-white md:dark:text-white"
                     aria-current="page"
                   >
